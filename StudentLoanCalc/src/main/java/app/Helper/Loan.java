@@ -30,9 +30,9 @@ public class Loan {
 	}
 	
 	private void calcPayment() {
-		System.out.println(dLoanAmount+ ", "+ dInterestRate+", " +iTerm + ", "+dExtraPayment);
+	//System.out.println(dLoanAmount+ ", "+ dInterestRate+", " +iTerm + ", "+dExtraPayment);
 		monthlyPayment = Math.round(-1*FinanceLib.pmt(dInterestRate/12, 12*iTerm, dLoanAmount, 0, false)*100.0)/100.0;
-		System.out.println("Monthly Payment is: " + monthlyPayment);
+	//System.out.println("Monthly Payment is: " + monthlyPayment);
 	}
 	
 	private void goLoan() {
@@ -49,10 +49,6 @@ public class Loan {
 		Payment p = new Payment(dLoanAmount, dInterestRate, monthlyPayment, dExtraPayment,pmtDate.plusMonths(1));
 		loanPayments.add(p);
 		p.setPmtNbr(0);
-	}
-
-	public LinkedList<Payment> getLoanPayments(){
-		return loanPayments;
 	}
 	
 	public double calcInterestPayment() {
@@ -76,5 +72,8 @@ public class Loan {
 		return calcPrinciplePayment() + calcInterestPayment();
 	}
 	
+	public LinkedList<Payment> getLoanPayments(){
+		return loanPayments;
+	}
 	
 }

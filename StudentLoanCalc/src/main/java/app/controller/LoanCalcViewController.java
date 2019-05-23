@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -70,6 +71,9 @@ public class LoanCalcViewController implements Initializable   {
 	@FXML
 	private TableColumn balanceCol;
 	
+	//Decimal Format for Labels Total Payment and Total Interest
+	DecimalFormat df = new DecimalFormat("#,###,##0.00");
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}
@@ -87,17 +91,16 @@ public class LoanCalcViewController implements Initializable   {
 	@FXML
 	private void btnCalcLoan(ActionEvent event) {
 
-		//System.out.println("Amount: " + LoanAmount.getText());
 		double dLoanAmount = Double.parseDouble(LoanAmount.getText());
 		double interestRate = Double.parseDouble(InterestRate.getText())/100.0;
 		int term = Integer.parseInt(NbrOfYears.getText());
 		double additionPmt = Double.parseDouble(addPmt.getText());
 		LocalDate firstDate = fstPmtDate.getValue(); ;
-		System.out.println("Amount: " + dLoanAmount);	
+	//System.out.println("Loan Amount: " + dLoanAmount);	
 		lblTotalPayments.setText("123");
-		System.out.println("Number of years: " +term);
-		System.out.println("Interest Rate: "+ interestRate);
-		System.out.println("First Date: "+ firstDate);
+	//System.out.println("Number of years: " +term);
+	//System.out.println("Interest Rate: "+ interestRate);
+	//System.out.println("First Date: "+ firstDate);
 		Loan myLoan = createLoan(dLoanAmount, interestRate, term, additionPmt, firstDate);
 		setLabels(myLoan);
 		setTable(myLoan, firstDate);
@@ -111,8 +114,8 @@ public class LoanCalcViewController implements Initializable   {
 	}
 	
 	public void setLabels(Loan l) {
-		lblTotalPayments.setText(Double.toString(l.calcTotalPayment()));
-		lblTotalInterest.setText(Double.toString(l.calcInterestPayment()));
+		lblTotalPayments.setText(df.format(Math.round(l.calcTotalPayment()*100.0)/100.0));
+		lblTotalInterest.setText(df.format(Math.round(l.calcInterestPayment()*100.0)/100.0));
 	}
 	
 	public void setTable(Loan l, LocalDate ld) {
